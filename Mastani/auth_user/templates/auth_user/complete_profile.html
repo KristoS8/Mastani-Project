@@ -1,0 +1,59 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    {% tailwind_css %}
+  </head>
+  <body class="flex flex-col items-center justify-center w-screen h-screen bg-gray-200 text-gray-900">
+    {% load socialaccount %}
+
+    <!-- Component Start -->
+    <h1 class="font-bold text-2xl">Silahkan Lengkapi Profile Anda</h1>
+    <form class="flex flex-col bg-white rounded shadow-lg p-12 mt-12" method="post" action="{% url 'complete_profile' %}">
+      {% csrf_token %}
+      <label class="font-semibold text-xs" for="usernameField">NO. HP Anda</label>
+      <input
+        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-hijau-primary sm:text-sm/6 px-3 my-3"
+        type="text"
+        name="no_telp"
+        id="no_telp"
+        placeholder="Masukkan Nomor Telepon"
+        value="{{ form.no_telp.value }}"
+        required
+        autocomplete="off"
+      />
+
+      <div>
+        <label for="role" class="block text-sm/6 font-medium text-gray-900">Role</label>
+        <div class="input-group mb-3">
+          <select
+            class="form-select w-full rounded-md bottom-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-hijau-primary placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-hijau-primary sm:text-sm/6 px-3 my-3"
+            id="role"
+            name="role"
+            required
+          >
+            <option selected>Choose...</option>
+            <option value="buyer">Pembeli</option>
+            <option value="seller">Penjual</option>
+          </select>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="flex w-full justify-center rounded-md bg-hijau-primary px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+      >
+        Simpan
+      </button>
+    </form>
+    <!-- Component End  -->
+
+    <!-- img mastani -->
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-52 w-auto" src="{% static 'Home/img/logo_mastani.svg' %}" alt="Mastani" />
+    </div>
+  </body>
+</html>

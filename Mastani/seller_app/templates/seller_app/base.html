@@ -1,0 +1,83 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Seller</title>
+    {% tailwind_css %}
+  </head>
+  <body class="lg:flex">
+    <!-- Sidebar -->
+    <div class="bg-hijau-primary text-white w-64 min-h-screen flex-col p-4 space-y-6 lg:flex hidden" id="desktopSidebar">
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <img src="{% static 'Home/img/logo_mastani.svg' %}" alt="Logo" class="w-8 h-8" />
+        <span class="font-semibold text-lg">Dashboard</span>
+      </div>
+
+      <!-- Menu -->
+      <nav class="space-y-4">
+        <a href="{% url 'seller_dashboard' %}" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out {% if active_page == 'dashboard' %}underline underline-offset-4{% endif %}">Dashboard</a>
+        <a href="{% url 'profile_seller' %}" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out {% if active_page == 'profile' %}underline underline-offset-4{% endif %}">Profile</a>
+        <a href="{% url 'product_list' %}" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out {% if active_page == 'product' %}underline underline-offset-4{% endif %}">Produk Saya</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out">Logout</button>
+        </form>
+      </nav>
+    </div>
+
+    <!-- Toggle Sidebar for Mobile -->
+    <div class="lg:hidden">
+      <div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" id="sidebarOverlay"></div>
+
+      <!-- Button for Mobile Menu -->
+      <nav class="bg-hijau-primary">
+        <button class="text-white p-2 rounded mx-4 my-2" id="menuButton">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Sidebar Mobile -->
+      <div class="fixed top-0 left-0 bg-hijau-primary text-white w-64 min-h-screen transform -translate-x-full transition-transform ease-in-out duration-300 z-50" id="mobileSidebar">
+        <div class="flex items-center space-x-2 p-4">
+          <img src="{% static 'Home/img/logo_mastani.svg' %}" alt="Logo" class="w-8 h-8" />
+          <span class="font-semibold text-lg">Dashboard Seller</span>
+        </div>
+        <nav class="space-y-4 p-4">
+          <a href="{% url 'seller_dashboard' %}" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out {% if active_page == 'dashboard' %}underline underline-offset-4{% endif %}">Dashboard</a>
+          <a href="{% url 'profile_seller' %}" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out {% if active_page == 'profile' %}underline underline-offset-4{% endif %}">Profile</a>
+          <a href="{% url 'product_list' %}" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out {% if active_page == 'product' %}underline underline-offset-4{% endif %}">Produk Saya</a>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <a href="" class="block px-4 py-2 rounded hover:bg-green-600 transition-all duration-500 ease-in-out">Logout</a>
+          </form>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    {% block content %} {% endblock %}
+
+    <!-- Script to Toggle Sidebar -->
+    <script>
+      const menuButton = document.getElementById("menuButton");
+      const mobileSidebar = document.getElementById("mobileSidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+      menuButton.addEventListener("click", () => {
+        mobileSidebar.classList.toggle("-translate-x-full");
+        sidebarOverlay.classList.toggle("hidden");
+      });
+
+      sidebarOverlay.addEventListener("click", () => {
+        mobileSidebar.classList.add("-translate-x-full");
+        sidebarOverlay.classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>

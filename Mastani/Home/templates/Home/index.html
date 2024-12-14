@@ -1,0 +1,125 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!--  content cuaca -->
+<!--  content cuaca -->
+<div class="border-2 w-10/12 mx-auto border-gray-300 my-8 rounded-lg">
+  <div class="flex justify-between w-11/12 mx-auto md:text-xl text-sm">
+    <div class="w-max h-max flex justify-center items-center">
+      <h1 class="font-semibold text-hijau-primary mt-4" id="weather_prov">Jawa Tengah,</h1>
+      <h1 class="font-semibold text-hijau-primary ml-1 mt-4" id="weather_city">Kabupaten Magelang</h1>
+    </div>
+
+    <div class="font-semibold text-hijau-primary ml-1 mt-4" id="weather_date">Senin, 14 Agustus 2024</div>
+  </div>
+
+  <div class="flex items-center my-5 w-11/12 mx-auto justify-between">
+    <div class="flex items-center gap-5 w-max">
+      <img src="{% static 'Home/img/weather.png' %}" alt="" class="md:w-12 w-8" id="weather_img" />
+      <div class="text-gray-900 md:text-3xl text-xl w-max top-10" id="weather_temp">30°C</div>
+
+      <div class="w-max md:text-xs text-[10px] text-gray-600">
+        <div class="flex items-center gap-1">
+          <div>Arah Angin:</div>
+          <div id="weather_wind_degree">199°</div>
+        </div>
+        <div class="flex items-center gap-1">
+          <div>Kecepatan Angin:</div>
+          <div id="weather_wind_speed">5 Km/h</div>
+        </div>
+        <div class="flex items-center gap-1">
+          <div>Kelembapan:</div>
+          <div id="weather_humidity">49%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-gray-800 font-semibold mx-8 md:text-lg text-sm" id="weather_name">Sebagian Berawan</div>
+  </div>
+</div>
+
+<!-- fitur -->
+<div class="grid justify-items-center my-20">
+  <div class="grid grid-cols-1 justify-items-center w-8/12 sm:grid-cols-3 gap-8 sm:gap-0">
+    <div class="outline-none w-max p-16 flex justify-center items-center rounded-xl shadow-lg border border-gray-400">
+      <a class="" href="{% url 'keuangan_view' %}">
+        <img src="{% static 'Home/img/keuangan.svg' %}" alt="" class="mx-auto text-center" />
+        <div class="w-full grid justify-items-center my-2">
+          <div class="font-semibold mt-1">Keuangan</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="outline-none w-max p-16 flex justify-center items-center rounded-xl shadow-lg border border-gray-400">
+      <a class="" href="{% url 'pemasaran' %}">
+        <img src="{% static 'Home/img/pemasaran.svg' %}" alt="" class="mx-auto text-center" />
+        <div class="w-full grid justify-items-center my-2">
+          <div class="font-semibold mt-1">Pemasaran</div>
+        </div>
+      </a>
+    </div>
+    <div class="outline-none w-max flex justify-center items-center shadow-lg border border-gray-400">
+      <a class="w-max p-20 rounded-xl" href="{% url 'literasi' %}">
+        <img src="{% static 'Home/img/literasi.svg' %}" alt="" class="mx-auto text-center" />
+
+        <div class="w-full grid justify-items-center my-2">
+          <div class="font-semibold mt-1">Literasi</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- about -->
+<section class="py-20 relative">
+  <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+    <div class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1">
+      <div class="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
+        <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
+          <h2 class="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">Menjual Produk, Mengelola Keuangan, dan Mendapatkan Pengetahuan Yang Tepat</h2>
+          <p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
+            Mastani datang menyediakan fitur-fitur yang dirancang khusus untuk memenuhi kebutuhan petani, mulai dari kemudahan berjualan secara online, hingga dompet digital yang memungkinkan petani menabung dan mengelola keuangan dengan
+            lebih efisien. Selain itu, kami juga menawarkan berbagai sumber daya dan literasi tentang pertanian, sehingga petani dapat meningkatkan pengetahuan dan keterampilan mereka.
+          </p>
+        </div>
+        <a href="{% url 'login' %}" class="sm:w-fit w-full px-3.5 py-2 bg-hijau-primary hover:bg-green-700 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex">
+          <span class="px-1.5 text-white text-sm font-medium leading-6">Mulai</span>
+        </a>
+      </div>
+      <img class="lg:mx-0 mx-auto h-full rounded-3xl object-cover my-5 sm:my-0" src="{% static 'Home/img/about.png' %}" alt="about Us image" />
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
+<script>
+  // function cuaca() {
+  //   $.ajax({
+  //     url: "http://api.weatherstack.com/current?",
+  //     type: "get",
+  //     dataType: "json",
+  //     data: {
+  //       access_key: "55e627914bfdf443a85fe5875d3c09ff",
+  //       query: "Magelang",
+  //     },
+
+  //     success: function (result) {
+  //       $("#weather_prov").html(result.location.region + ",");
+  //       $("#weather_city").html(result.location.name);
+  //       $("#weather_date").html(result.location.localtime);
+  //       $("#weather_temp").html(result.current.temperature + "°C");
+  //       $("#weather_wind_degree").html(result.current.wind_degree + "°");
+  //       $("#weather_wind_speed").html(result.current.wind_speed + " Km/h");
+  //       $("#weather_humidity").html(result.current.humidity + "%");
+  //       $("#weather_name").html(result.current.weather_descriptions[0]);
+  //       $("#weather_img").attr("src", result.current.weather_icons[0]);
+  //     },
+  //   });
+  // }
+
+  // if (true) {
+  //   cuaca();
+  // }
+</script>
+
+{% endblock %}

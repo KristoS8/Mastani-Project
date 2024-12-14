@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="w-full">
+  <h1 class="mx-auto text-2xl w-max font-semibold mt-16">Informasi Seputar Dunia Pertanian</h1>
+</div>
+
+<div class="w-full flex justify-center items-center">
+  <div class="w-11/12 my-5">
+    <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:px-16 md:pb-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 gap-10">
+        {% for item in data_literasi %}
+        <div class="rounded overflow-hidden shadow-lg">
+          <a href="#"></a>
+          <div class="relative">
+            <a href="#">
+              {% if item.img %}
+              <img class="w-full" src="{{ item.img.url }}" alt="{{ item.title }}" />
+              {% else %}
+              <p>Gambar tidak tersedia</p>
+              {% endif %}
+              <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
+            </a>
+          </div>
+          <div class="px-6 py-4">
+            <a href="#" class="font-semibold text-lg inline-block hover:text-hijau-primary transition duration-500 ease-in-out">{{ item.title }}</a>
+            <p class="text-gray-500 text-sm">{{ item.deskripsi }}</p>
+            <a
+              href="{{ item.link_literasi }}"
+              class="sm:w-fit w-full px-3.5 py-2 bg-hijau-primary hover:bg-green-700 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex my-5"
+            >
+              <span class="px-1.5 text-white text-sm font-medium leading-6">Selengkapnya</span>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

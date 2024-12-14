@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riwayat Transaksi</title>
+    {% load humanize %}
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg md:w-5/12 max-w-screen-xl">
+      <div class="p-4">
+        <h5 class="mb-2 text-slate-800 text-xl font-semibold">Riwayat Transaksi Anda</h5>
+        <h5 class="mb-2 text-slate-800 text-xl font-semibold">Nama: {{ user.username }}</h5>
+        <h6 class="mb-2 text-slate-800 text-xl font-semibold">Email: {{ user.email }}</h6>
+        <h6 class="mb-2 text-slate-800 text-xl font-semibold">No. Hp: {{ user.no_telp }}</h6>
+        <h6 class="text-base text-slate-800 font-bold">Pemasukan</h6>
+        <div class="flex flex-col p-4 gap-5">
+          {% for data_topUp in transaksi %} {% if data_topUp %}
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-row items-center gap-2">
+              <hr class="w-1/2" />
+              <p class="italic text-xs text-gray-600 text-nowrap">{{ data_topUp.formatted_created_at }}</p>
+            </div>
+            <p class="text-md">Pengisian saldo via {{ data_topUp.payment_method }} {{ data_topUp.status }} sejumlah Rp {{ data_topUp.nominal|intcomma }}.</p>
+          </div>
+          {% else %} {% endif %} {% endfor %}
+        </div>
+
+        {% for data_transfer in data_transfer %} {% if data_transfer %} {% if data_transfer.is_sender %} {% else %}
+        <div class="flex flex-row items-center gap-2">
+          <hr class="w-1/2" />
+          <p class="italic text-xs text-gray-600 text-nowrap">{{ data_transfer.formatted_created_at }}</p>
+          <hr class="w-1/2" />
+        </div>
+        <p class="text-md">Anda Menerima Transfer Dari {{ data_transfer.sender }} {{ data_transfer.status }} dengan nominal Rp. {{ data_transfer.amount|intcomma }}</p>
+        {% endif %} {% endif %} {% endfor %}
+
+        <hr />
+        <h6 class="text-base text-slate-800 font-bold">Pengeluaran</h6>
+
+        {% for data_transfer in data_transfer %} {% if data_transfer %}
+        <div class="flex flex-col gap-2">
+          {% if data_transfer.is_sender %}
+          <div class="flex flex-row items-center gap-2">
+            <hr class="w-1/2" />
+            <p class="italic text-xs text-gray-600 text-nowrap">{{ data_transfer.formatted_created_at }}</p>
+            <hr class="w-1/2" />
+          </div>
+          <p class="text-md">Transfer Saldo Ke {{ data_transfer.receiver_phone_number }} dari {{ data_transfer.user }} {{ data_transfer.status }} dengan nominal Rp. {{ data_transfer.amount|intcomma }}</p>
+          {% else %} {% endif %}
+        </div>
+        {% endif %} {% endfor %}
+        <!-- isi pulsa -->
+        {% for data_isipulsa in data_isipulsa %} {% if data_isipulsa %}
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-row items-center gap-2">
+            <hr class="w-1/2" />
+            <p class="italic text-xs text-gray-600 text-nowrap">{{ data_isipulsa.formatted_created_at }}</p>
+            <hr class="w-1/2" />
+          </div>
+          <p class="text-md">Isi Pulsa ke nomor {{ data_isipulsa.phone_number }} oleh {{ data_isipulsa.user }} {{ data_isipulsa.status }} dengan nominal Rp. {{ data_isipulsa.nominal|intcomma }}</p>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% load static %} {% block content %} {% load humanize %}
+
+<div class="h-max rounded-lg flex justify-end items-center">
+  <a href="{% url 'cart' %}" class="bg-hijau-primary p-3 rounded-xl mr-10 mt-5 sm:mt-10 sm:mr-12 hover:bg-green-700 active:bg-green-600">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-slate-50">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+      />
+    </svg>
+  </a>
+</div>
+
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
+    <h2 class="sr-only">Products</h2>
+
+    <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 py-5">
+      {% for product in products %}
+      <div class="group h-max bg-green-100 p-5 rounded-xl shadow-md">
+        <p class="mt-1 text-sm text-gray-900 mb-5 font-semibold">Seller: <span>{{ product.seller }}</span></p>
+        <img src="{{ product.image.url }}" alt="{{ product.name }}." class="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]" />
+        <h3 class="mt-4 text-gray-700 font-medium text-xl">{{ product.name }}</h3>
+        <p class="mt-1 text-lg font-medium text-gray-900 mb-1">Rp. <span>{{ product.price|intcomma }}</span></p>
+        <p class="mt-1 text-sm text-gray-900 mb-5">Tersedia: <span>{{ product.quantity }}</span></p>
+        <form action="{% url 'add_to_cart' product.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="mt-5 sm:w-fit w-full px-3.5 py-2 h-max bg-hijau-primary hover:bg-green-700 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)]">
+            <span class="px-1.5 text-white text-sm font-medium">Tambah Ke Keranjang</span>
+          </button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

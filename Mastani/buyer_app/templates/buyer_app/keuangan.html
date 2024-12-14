@@ -1,0 +1,446 @@
+{% extends 'base.html' %} {% load static %} {% load humanize %} {% block content %} {% if messages %} {% for message in messages %}
+<div class="flex items-center p-3 my-5 text-sm text-white rounded-lg bg-hijau-primary dark:bg-gray-800 dark:text-green-400 mx-auto w-max" role="alert">
+  <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+  </svg>
+  <span class="sr-only">Info</span>
+  <div>{{ message }}</div>
+</div>
+{% endfor %} {% endif %}
+
+<div class="md:w-11/12 mx-auto my-14 md:flex md:justify-evenly grid grid-cols-1 gap-10 w-10/12">
+  <div class="md:flex md:flex-col bg-white shadow-sm border border-slate-200 rounded-lg md:w-5/12 max-w-screen-xl md:h-max">
+    <div class="p-4 my-1">
+      <!-- saldo -->
+      <h5 class="mb-2 text-slate-800 text-xl font-semibold">Saldo Anda</h5>
+      <div class="flex w-max items-center my-2">
+        <p class="text-slate-900 text-2xl">Rp.</p>
+        <p class="text-slate-900 text-5xl font-semibold ml-3">{{ current_balance|intcomma }}</p>
+        <p class="text-slate-900 text-2xl ml-1">,00</p>
+      </div>
+
+      <!-- transaksi terbaru -->
+      <div class="flex flex-col gap-2 my-5">
+        <div class="flex flex-row items-center gap-4 justify-between">
+          <p>Transaksi Masuk (Terbaru)</p>
+          <div class="flex flex-row gap-1 items-center text-green-400">
+            <p class="text-lg">+</p>
+            <p class="font-medium md:text-lg text-sm">Rp.</p>
+            {% if data_topUp_terakhir %}
+            <div class="font-medium md:text-xl">{{ data_topUp_terakhir.nominal|intcomma }}</div>
+            {% else %}
+            <div class="font-medium md:text-xl">0</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="flex flex-row items-center gap-4 justify-between">
+          <p>Transaksi keluar (Terbaru)</p>
+          <div class="flex flex-row items-end gap-1 text-red-600">
+            <p class="text-lg">-</p>
+            <p class="font-medium md:text-lg text-sm">Rp.</p>
+            {% if data_pengeluaran_terakhir.is_sender %}
+            <p class="font-medium md:text-xl">{{ data_pengeluaran_terakhir.amount|intcomma }}</p>
+            {% else %}
+            <div class="font-medium md:text-xl">0</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="flex flex-row items-center gap-4 justify-between">
+          <p>Isi Pulsa Terbaru</p>
+          <div class="flex flex-row items-end gap-1 text-red-600">
+            <p class="text-lg">-</p>
+            <p class="font-medium md:text-lg text-sm">Rp.</p>
+            {% if data_pengeluaran_terakhir2 %}
+            <p class="font-medium md:text-xl">{{ data_pengeluaran_terakhir2.nominal|intcomma }}</p>
+            {% else %}
+            <div class="font-medium md:text-xl">0</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="my-7">
+        <button
+          type="button"
+          id="openModalBtn"
+          class="rounded-md bg-hijau-primary py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-green-600 focus:shadow-none active:bg-hijau-primary hover:bg-green-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        >
+          Isi Saldo
+        </button>
+
+        <!-- aktivitas -->
+        <div class="mt-10 flex justify-center gap-6 text-sm md:w-max w-full">
+          <div class="">
+            <button
+              type="button"
+              id="btnModalTransfer"
+              class="rounded-md bg-hijau-primary py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-green-600 focus:shadow-none active:bg-hijau-primary hover:bg-green-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+              </svg>
+            </button>
+            <p class="mx-auto w-max">Kirim</p>
+          </div>
+          <div class="">
+            <button
+              type="button"
+              id="btnModalPulsa"
+              class="rounded-md bg-hijau-primary py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-green-600 focus:shadow-none active:bg-hijau-primary hover:bg-green-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+              </svg>
+            </button>
+            <p class="mx-auto w-max">Isi Pulsa</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg md:w-5/12 max-w-screen-xl">
+    <div class="p-4">
+      <h5 class="mb-2 text-slate-800 text-xl font-semibold">Riwayat Transaksi</h5>
+      <div class="flex flex-col p-4 gap-5">
+        <hr />
+        <!-- pemasukan -->
+        <p class="text-base text-slate-800 font-semibold">Pemasukan</p>
+        <!-- data topup -->
+        {% for data_topUp in data_topUp %} {% if data_topUp %}
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-row items-center gap-2">
+            <hr class="w-1/2" />
+            <p class="italic text-xs text-gray-600 text-nowrap">{{ data_topUp.formatted_created_at }}</p>
+            <hr class="w-1/2" />
+          </div>
+          <p class="text-md">Pengisian saldo via {{ data_topUp.payment_method }} {{ data_topUp.status }} sejumlah Rp {{ data_topUp.nominal|intcomma }}.</p>
+        </div>
+        {% else %} {% endif %} {% endfor %}
+        <!-- pemasukan data transfer (menerima) -->
+        {% for data_transfer in data_transfer %} {% if data_transfer %} {% if data_transfer.is_sender %} {% else %}
+        <div class="flex flex-row items-center gap-2">
+          <hr class="w-1/2" />
+          <p class="italic text-xs text-gray-600 text-nowrap">{{ data_transfer.formatted_created_at }}</p>
+          <hr class="w-1/2" />
+        </div>
+        <p class="text-md">Anda Menerima Transfer Dari {{ data_transfer.sender }} {{ data_transfer.status }} dengan nominal Rp. {{ data_transfer.amount|intcomma }}</p>
+        {% endif %} {% endif %} {% endfor %}
+
+        <hr />
+        <p class="text-base text-slate-800 font-semibold">Pengeluaran</p>
+
+        <!-- pengeluaran data transfer (pengirim) -->
+        {% for data_transfer in data_transfer %} {% if data_transfer %}
+        <div class="flex flex-col gap-2">
+          {% if data_transfer.is_sender %}
+          <div class="flex flex-row items-center gap-2">
+            <hr class="w-1/2" />
+            <p class="italic text-xs text-gray-600 text-nowrap">{{ data_transfer.formatted_created_at }}</p>
+            <hr class="w-1/2" />
+          </div>
+          <p class="text-md">Transfer Saldo Ke {{ data_transfer.receiver_phone_number }} dari {{ data_transfer.user }} {{ data_transfer.status }} dengan nominal Rp. {{ data_transfer.amount|intcomma }}</p>
+          {% else %} {% endif %}
+        </div>
+        {% endif %} {% endfor %}
+        <!-- isi pulsa -->
+        {% for data_isipulsa in data_isipulsa %} {% if data_isipulsa %}
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-row items-center gap-2">
+            <hr class="w-1/2" />
+            <p class="italic text-xs text-gray-600 text-nowrap">{{ data_isipulsa.formatted_created_at }}</p>
+            <hr class="w-1/2" />
+          </div>
+          <p class="text-md">Isi Pulsa ke nomor {{ data_isipulsa.phone_number }} oleh {{ data_isipulsa.user }} {{ data_isipulsa.status }} dengan nominal Rp. {{ data_isipulsa.nominal|intcomma }}</p>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+
+      <div class="my-7 w-max">
+        <form action="{% url 'generate_riwayat_pdf' %}" method="get">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="rounded-md bg-hijau-primary py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-green-600 focus:shadow-none active:bg-hijau-primary hover:bg-green-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          >
+            Download
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALL MODALS -->
+
+<!-- Modal Top Up -->
+<div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 justify-center items-center hidden">
+  <div id="modalContent" class="bg-white rounded-lg shadow-lg md:w-3/5 p-6 slide-down w-4/5 h-3/4 md:h-max max-h-max overflow-y-auto mt-6">
+    <button id="closeModalBtn" class="absolute top-5 right-5 text-gray-600 hover:bg-green-100 p-1 rounded-lg transition duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <h5 class="mb-2 text-slate-800 text-xl font-semibold">Isi Saldo Anda</h5>
+    <div class="m-3">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="font-semibold text-lg">1. Pilih Nominal Saldo</div>
+        <ul class="items-center w-11/12 mx-auto text-sm font-medium text-gray-900 md:grid md:grid-cols-5 dark:bg-gray-700 dark:border-gray-600 dark:text-white md:gap-4 my-6 grid grid-cols-1 gap-4">
+          <li class="w-max dark:border-gray-600 bg-green-50 border border-gray-300 rounded-lg cursor-pointer shadow-md">
+            <div class="flex items-center ps-3 mr-5">
+              <input
+                id="saldo_10k"
+                type="radio"
+                value="10000"
+                name="nominal"
+                class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label for="saldo_10k" class="w-full py-3 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Rp. 10.000</label>
+            </div>
+          </li>
+          <li class="w-max dark:border-gray-600 bg-green-50 border border-gray-300 rounded-lg cursor-pointer shadow-md">
+            <div class="flex items-center ps-3 mr-5">
+              <input
+                id="saldo_15k"
+                type="radio"
+                value="15000"
+                name="nominal"
+                class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label for="saldo_15k" class="w-full py-3 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Rp. 15.000</label>
+            </div>
+          </li>
+          <li class="w-max dark:border-gray-600 bg-green-50 border border-gray-300 rounded-lg cursor-pointer shadow-md">
+            <div class="flex items-center ps-3 mr-5">
+              <input
+                id="saldo_20k"
+                type="radio"
+                value="20000"
+                name="nominal"
+                class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label for="saldo_20k" class="w-full py-3 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Rp. 20.000</label>
+            </div>
+          </li>
+          <li class="w-max dark:border-gray-600 bg-green-50 border border-gray-300 rounded-lg cursor-pointer shadow-md">
+            <div class="flex items-center ps-3 mr-5">
+              <input
+                id="saldo_30k"
+                type="radio"
+                value="30000"
+                name="nominal"
+                class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label for="saldo_30k" class="w-full py-3 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Rp. 30.000</label>
+            </div>
+          </li>
+          <li class="w-max dark:border-gray-600 bg-green-50 border border-gray-300 rounded-lg cursor-pointer shadow-md">
+            <div class="flex items-center ps-3 mr-5">
+              <input
+                id="saldo_50k"
+                type="radio"
+                value="50000"
+                name="nominal"
+                class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+              />
+              <label for="saldo_50k" class="w-full py-3 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Rp. 50.000</label>
+            </div>
+          </li>
+        </ul>
+
+        <div class="font-semibold text-lg">2. Pilih Metode Pembayaran</div>
+        <div class="md:flex my-4 md:w-11/12 w-1/2 mx-auto gap-3">
+          <div class="p-3 flex items-center shadow-md border border-slate-400 rounded-lg cursor-pointer my-3">
+            <input
+              id="Telkomsel"
+              type="radio"
+              value="Telkomsel"
+              name="payment_method"
+              class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+            />
+            <label for="radio_metode">
+              <img class="ms-3 md:h-8 h-5 w-auto" src="{% static 'Home/img/logo-telkomsel.png' %}" alt="Logo Telkomsel" />
+            </label>
+          </div>
+          <div class="p-3 flex items-center shadow-md border border-slate-400 rounded-lg cursor-pointer my-3">
+            <input
+              id="Bank_BRI"
+              type="radio"
+              value="Bank_BRI"
+              name="payment_method"
+              class="w-4 h-4 text-hijau-primary bg-gray-100 border-gray-500 focus:ring-green-800 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+            />
+            <label for="radio_metode">
+              <img class="ms-3 md:h-8 h-4 w-auto" src="{% static 'Home/img/bank_bri_logo.png' %}" alt="Logo Bank Bri" />
+            </label>
+          </div>
+        </div>
+        <div class="flex justify-center mt-5">
+          <button type="submit" class="bg-hijau-primary text-white font-semibold p-3 rounded-lg hover:bg-green-600 active:bg-green-500">Konfirmasi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Transfer -->
+<div id="modal2" class="fixed inset-0 bg-gray-900 bg-opacity-50 justify-center items-center hidden">
+  <div id="modalTransfer" class="bg-white rounded-lg shadow-lg md:w-3/5 p-6 slide-down w-4/5 h-3/4 md:h-max max-h-max overflow-y-auto mt-6">
+    <button id="closeModalTransfer" class="absolute top-5 right-5 text-gray-600 hover:bg-green-100 p-1 rounded-lg transition duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <h5 class="mb-2 text-slate-800 text-xl font-semibold">Transfer Saldo</h5>
+
+    <form action="{% url 'transfer_saldo' %}" method="post">
+      {% csrf_token %}
+      <div class="md:col-span-5 my-3">
+        <label for="receiver_phone">No Hp Penerima</label>
+        <input
+          type="text"
+          name="receiver_phone"
+          id="receiver_phone"
+          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2"
+          value=""
+          placeholder="Masukkan No Hp dengan format +62"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="md:col-span-5 my-3">
+        <label for="amount">Nominal</label>
+        <input
+          type="number"
+          name="amount"
+          id="amount"
+          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2"
+          value="0"
+          placeholder="Masukkan Nominal (Maksimal 100000)"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="flex justify-center mt-5">
+        <button type="submit" class="bg-hijau-primary text-white font-semibold py-2 px-8 rounded-lg hover:bg-green-600 active:bg-green-500">Kirim</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Pulsa -->
+<div id="modal3" class="fixed inset-0 bg-gray-900 bg-opacity-50 justify-center items-center hidden">
+  <div id="modalPulsa" class="bg-white rounded-lg shadow-lg md:w-3/5 p-6 slide-down w-4/5 h-3/4 md:h-max max-h-max overflow-y-auto mt-6">
+    <button id="closeModalPulsa" class="absolute top-5 right-5 text-gray-600 hover:bg-green-100 p-1 rounded-lg transition duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <h5 class="mb-2 text-slate-800 text-xl font-semibold">Isi Pulsa</h5>
+
+    <form action="{% url 'isi_pulsa' %}" method="post">
+      {% csrf_token %}
+      <div class="md:col-span-5 my-3">
+        <label for="email">No Hp</label>
+        <input
+          type="text"
+          name="phone_number"
+          id="phone_number"
+          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2"
+          value="{{ user.no_telp }}"
+          placeholder="Masukkan No Hp dengan format +62"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="md:col-span-5 my-3">
+        <label for="email">Nominal Pulsa</label>
+        <input
+          type="number"
+          name="nominal"
+          id="nominal"
+          class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2"
+          value="0|intcomma"
+          placeholder="Masukkan Nominal (Maksimal 50000)"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="flex justify-center mt-5">
+        <button type="submit" class="bg-hijau-primary text-white font-semibold py-2 px-8 rounded-lg hover:bg-green-600 active:bg-green-500">Isi Pulsa</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // JavaScript untuk kontrol modal
+  // Ambil elemen-elemen yang dibutuhkan
+  const openModalBtn = document.getElementById("openModalBtn");
+  const modal = document.getElementById("modal");
+  const modal2 = document.getElementById("modal2");
+  const modal3 = document.getElementById("modal3");
+  const modalContent = document.getElementById("modalContent");
+  const modalTransfer = document.getElementById("modalTransfer");
+  const modalPulsa = document.getElementById("modalPulsa");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  const closeModalTransfer = document.getElementById("closeModalTransfer");
+  const closeModalPulsa = document.getElementById("closeModalPulsa");
+  const btnModalTransfer = document.getElementById("btnModalTransfer");
+  const btnModalPulsa = document.getElementById("btnModalPulsa");
+
+  // Fungsi untuk membuka modal dengan animasi
+  openModalBtn.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+    setTimeout(() => {
+      modalContent.classList.add("show");
+    });
+  });
+
+  btnModalTransfer.addEventListener("click", () => {
+    modal2.classList.remove("hidden");
+    modal2.classList.add("flex");
+
+    setTimeout(() => {
+      modalTransfer.classList.add("show");
+    });
+  });
+
+  btnModalPulsa.addEventListener("click", () => {
+    modal3.classList.remove("hidden");
+    modal3.classList.add("flex");
+
+    setTimeout(() => {
+      modalPulsa.classList.add("show");
+    });
+  });
+
+  // Fungsi untuk menutup modal
+  closeModalBtn.addEventListener("click", () => {
+    modalContent.classList.remove("show");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }, 300); // Tunggu selama durasi animasi selesai
+  });
+  closeModalTransfer.addEventListener("click", () => {
+    modalTransfer.classList.remove("show");
+    setTimeout(() => {
+      modal2.classList.add("hidden");
+      modal2.classList.remove("flex");
+    }, 300); // Tunggu selama durasi animasi selesai
+  });
+  closeModalPulsa.addEventListener("click", () => {
+    modalPulsa.classList.remove("show");
+    setTimeout(() => {
+      modal3.classList.add("hidden");
+      modal3.classList.remove("flex");
+    }, 300); // Tunggu selama durasi animasi selesai
+  });
+</script>
+
+{% endblock %}

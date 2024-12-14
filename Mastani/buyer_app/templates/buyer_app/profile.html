@@ -1,0 +1,143 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+  <div class="container max-w-screen-lg mx-auto">
+    <div>
+      <h2 class="font-semibold text-xl text-gray-600">Profile Anda</h2>
+      <p class="text-gray-500 mb-6">Edit Profile</p>
+      {% for message in messages %}
+      <div class="flex items-center p-4 mb-4 text-sm text-white rounded-lg bg-hijau-primary dark:bg-gray-800 dark:text-green-400" role="alert">
+        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+        </svg>
+        <span class="sr-only">Info</span>
+        <div>{{ message }}</div>
+      </div>
+      {% endfor %}
+
+      <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+          <div class="text-gray-600">
+            <p class="font-medium text-lg">Data Personal</p>
+            <p>Silahkan isi sesuai data yang sesuai!</p>
+          </div>
+
+          <div class="lg:col-span-2">
+            <div class="">
+              <form action="" method="post" class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                {% csrf_token %}
+                <div class="md:col-span-5">
+                  <label for="username">Username</label>
+                  <input type="text" name="username" id="username" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2" value="{{ user.username }}" autocomplete="off" />
+                </div>
+
+                <div class="md:col-span-5">
+                  <label for="email">No. Telp</label>
+                  <input
+                    type="text"
+                    name="no_telp"
+                    id="no_telp"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2"
+                    value="{{ user.no_telp }}"
+                    placeholder="+62"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="md:col-span-3">
+                  <label for="address">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-hijau-primary focus:border-none focus:ring-2"
+                    value="{{ user.email }}"
+                    placeholder="email@domain.com"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="md:col-span-2">
+                  <label for="city">Role</label>
+                  <input type="text" name="role" id="role" class="h-10 border mt-1 rounded px-4 w-full bg-gray-200 cursor-not-allowed" value="{% if user.role == 'buyer' %}Pembeli{% endif %}" disabled readonly />
+                </div>
+
+                <div class="md:col-span-5 text-right my-3">
+                  <div class="inline-flex items-end">
+                    <button type="button" onclick="openModal('modelConfirm')" class="bg-hijau-primary hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Konfirmasi</button>
+                  </div>
+                </div>
+
+                <!-- modal konfirmasi -->
+
+                <div id="modelConfirm" class="fixed hidden z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
+                  <div class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md">
+                    <div class="flex justify-end p-2">
+                      <button onclick="closeModal('modelConfirm')" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div class="p-6 pt-0 text-center">
+                      <svg class="w-20 h-20 text-hijau-primary mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">Apakah Kamu Yakin Ingin Memperbaharui Profile?</h3>
+                      <button
+                        type="submit"
+                        onclick="closeModal('modelConfirm')"
+                        class="text-white bg-hijau-primary hover:bg-green-600 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2"
+                      >
+                        Ya, Setuju
+                      </button>
+                      <a
+                        href="#"
+                        onclick="closeModal('modelConfirm')"
+                        class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center"
+                        data-modal-toggle="delete-user-modal"
+                      >
+                        Tidak
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  window.openModal = function (modalId) {
+    document.getElementById(modalId).style.display = "block";
+    document.getElementsByTagName("body")[0].classList.add("overflow-y-hidden");
+  };
+
+  window.closeModal = function (modalId) {
+    document.getElementById(modalId).style.display = "none";
+    document.getElementsByTagName("body")[0].classList.remove("overflow-y-hidden");
+  };
+
+  // Close all modals when press ESC
+  document.onkeydown = function (event) {
+    event = event || window.event;
+    if (event.keyCode === 27) {
+      document.getElementsByTagName("body")[0].classList.remove("overflow-y-hidden");
+      let modals = document.getElementsByClassName("modal");
+      Array.prototype.slice.call(modals).forEach((i) => {
+        i.style.display = "none";
+      });
+    }
+  };
+</script>
+
+{% endblock %}

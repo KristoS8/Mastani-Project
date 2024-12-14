@@ -1,0 +1,48 @@
+{% extends 'seller_app/base.html' %} {% load static %} {% load humanize %} {% block content %}
+<!-- Container for table -->
+<div class="min-h-screen flex-1 flex-col items-center justify-center bg-gray-100 p-6">
+  <div class="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6">
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full table-auto border-collapse border border-gray-200">
+        <thead>
+          <tr class="bg-gray-100 border-b border-gray-300">
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Gambar</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Nama Produk</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Jumlah</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-200">Harga (Rp.)</th>
+            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          {% for product in products %}
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 border-r border-gray-200">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" width="50" class="rounded" />
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-900 border-r border-gray-200">{{ product.name }}</td>
+            <td class="px-6 py-4 text-sm text-gray-900 border-r border-gray-200">{{ product.quantity }}</td>
+            <td class="px-6 py-4 text-sm text-gray-900 border-r border-gray-200">{{ product.price|intcomma }}</td>
+            <td class="px-6 py-4 text-sm text-gray-900 flex gap-2">
+              <!-- Button Edit -->
+              <form action="{% url 'edit_product' product.id %}" method="GET">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Edit</button>
+              </form>
+              <!-- Button Delete -->
+              <form action="{% url 'delete_product' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Hapus</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- Button to add product -->
+    <div class="mt-6 text-center">
+      <a href="{% url 'add_product' %}" class="bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition duration-300 shadow-lg"> Tambah Produk </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

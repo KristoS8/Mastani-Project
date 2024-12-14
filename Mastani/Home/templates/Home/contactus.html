@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MASTANI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-6">
+        <!-- Header -->
+        <header class="text-center py-6">
+            <h1 class="text-4xl font-semibold text-green-600">Hubungi Kami</h1>
+            <p class="text-lg text-gray-600 mt-2">Kami siap membantu Anda dengan pertanyaan atau masukan terkait aplikasi MASTANI</p>
+        </header>
+
+        <!-- Form Kontak -->
+        <section class="my-8">
+            <h2 class="text-3xl font-semibold text-green-600">Kirim Pesan</h2>
+            <form action="{% url 'contactus' %}" method="POST" class="mt-6 space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="name" class="block text-lg font-medium text-gray-700">Nama Lengkap</label>
+                    {{ form.name }}  <!-- Menggunakan field dari form -->
+                </div>
+                <div>
+                    <label for="email" class="block text-lg font-medium text-gray-700">Email</label>
+                    {{ form.email }}  <!-- Menggunakan field dari form -->
+                </div>
+                <div>
+                    <label for="message" class="block text-lg font-medium text-gray-700">Pesan</label>
+                    {{ form.message }}  <!-- Menggunakan field dari form -->
+                </div>
+                <button type="submit" class="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-300">Kirim Pesan</button>
+            </form>
+        </section>
+
+        <!-- Informasi Kontak -->
+        <section class="my-8">
+            <h2 class="text-3xl font-semibold text-green-600">Informasi Kontak</h2>
+            <div class="mt-6 text-lg text-gray-700">
+                <p><strong>Email:</strong> support@mastani.id</p>
+                <p><strong>Telepon:</strong> +62 123 4567 890</p>
+                <p><strong>Alamat:</strong> Jl. Raya Magelang No.123, Magelang, Jawa Tengah</p>
+            </div>
+        </section>
+
+        <!-- Peta Lokasi -->
+        <section class="my-8">
+            <h2 class="text-3xl font-semibold text-green-600">Lokasi Kami</h2>
+            <div class="mt-6">
+                <iframe class="w-full h-64 rounded-lg" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.845350072259!2d110.22865878443783!3d-7.481090494686409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e71f1f829b8e95f%3A0x2e2879da0e6f84ea!2sJl.%20Raya%20Magelang%20No.123!5e0!3m2!1sid!2sid!4v1630414429927!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript untuk menampilkan popup -->
+    {% if success_message %}
+        <script>
+            alert("{{ success_message }}");
+            window.location.href = "{% url 'home' %}";
+        </script>
+    {% endif %}
+</body>
+</html>
+{% endblock %}

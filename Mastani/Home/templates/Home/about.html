@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!-- About Section -->
+<section class="py-20 relative">
+  <h1 class="text-2xl font-semibold text-gray-800 text-center mb-5">Tentang</h1>
+  <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+    <div class="w-full justify-start items-center gap-8 grid lg:grid-cols-2 grid-cols-1 text-center">
+      <!-- Teks Tentang Mastani -->
+      <div class="w-full flex-col justify-start lg:items-start items-center gap-10 inline-flex">
+        <div class="w-full flex-col justify-start lg:items-start items-center gap-4 flex">
+          <h2 class="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">Mastani</h2>
+          <p class="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
+            Mastani adalah platform inovatif yang dirancang untuk meningkatkan kesejahteraan petani di Indonesia. Kami hadir sebagai solusi atas berbagai tantangan yang dihadapi petani, seperti akses modal, pemasaran hasil panen tanpa
+            perantara, dan literasi agribisnis. Dengan Mastani, petani dapat memanfaatkan fitur-fitur seperti pengelolaan keuangan, pemasaran produk secara langsung, dan akses sumber daya edukasi.
+          </p>
+        </div>
+        <button class="sm:w-fit w-full px-3.5 py-2 bg-hijau-primary hover:bg-green-700 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] mt-0 mx-auto">
+          <a href="{% url 'home' %}" class="text-white text-sm font-medium leading-6"> Jelajahi Mastani </a>
+        </button>
+      </div>
+      <!-- Gambar Tentang Mastani -->
+      <img class="lg:mx-auto mx-auto h-full rounded-3xl object-cover lg:my-0 sm:my-0" src="{% static 'Home/img/logo_mastani.svg' %}" alt="Tentang Mastani" />
+    </div>
+  </div>
+</section>
+
+<!-- Mission and Vision Section -->
+<section class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-0 space-y-16">
+    <!-- Mission -->
+    <div class="text-center md:text-left p-6 bg-white rounded-lg shadow-lg">
+      <h3 class="text-2xl font-semibold text-gray-800">Misi</h3>
+      <p class="text-gray-600 mt-4">Kami berkomitmen untuk memberikan akses yang lebih baik bagi petani melalui teknologi yang memungkinkan mereka mengakses pasar, keuangan, dan pendidikan dengan lebih efisien.</p>
+    </div>
+
+    <!-- Vision -->
+    <div class="text-center md:text-left p-6 bg-white rounded-lg shadow-lg">
+      <h3 class="text-2xl font-semibold text-gray-800">Visi</h3>
+      <p class="text-gray-600 mt-4">Mewujudkan masyarakat petani yang mandiri dan sejahtera melalui penerapan teknologi yang efektif dan efisien di sektor pertanian.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto py-20 relative">
+  <div class="text-center md:text-left mb-16 p-6">
+    <h2 class="text-3xl font-semibold text-gray-900">Tim Kami</h2>
+    <p class="text-lg text-gray-600 mt-4">Kami terdiri dari individu yang berdedikasi untuk membuat perubahan positif dalam dunia pertanian.</p>
+  </div>
+
+  <!-- Team Members -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <!-- Member 1 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Ferdiansyah Umar</h3>
+      <h2 class="text-l font-semibold text-gray-800">Universitas Gunadarma</h2>
+    </div>
+
+    <!-- Member 2 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Zalfa Daffani</h3>
+      <h2 class="text-l font-semibold text-gray-800">Universitas Tidar</h2>
+    </div>
+
+    <!-- Member 3 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Kristo Pandapotan Samosir</h3>
+      <h2 class="text-l font-semibold text-gray-800">Universitas Papua</h2>
+    </div>
+
+    <!-- Member 4 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Dzaki Achmad Abimanyu</h3>
+      <h2 class="text-l font-semibold text-gray-800">Universitas Gadjah Mada</h2>
+    </div>
+
+    <!-- Member 5 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Nuryanti</h3>
+      <h2 class="text-l font-semibold text-gray-800">Universitas Garut</h2>
+    </div>
+
+    <!-- Member 6 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Marsellina</h3>
+      <h2 class="text-l font-semibold text-gray-800">Politeknik Negeri Sriwijaya</h2>
+    </div>
+
+    <!-- Member 7 -->
+    <div class="text-center bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-gray-800">Adelia Anisa</h3>
+      <h2 class="text-l font-semibold text-gray-800">Universitas Negeri Yogyakarta</h2>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

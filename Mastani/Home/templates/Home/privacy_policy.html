@@ -1,0 +1,127 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kebijakan Privasi - Mastani</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Jika ada file CSS eksternal -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            color: #333;
+        }
+        .section-title {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #333;
+        }
+        .section-content {
+            margin-top: 10px;
+            font-size: 1em;
+            color: #555;
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Kebijakan Privasi</h1>
+        <p>Terakhir diperbarui: [12 Desember 2024]</p>
+    </header>
+
+    <section>
+        <h2 class="section-title">1. Informasi yang Kami Kumpulkan</h2>
+        <div class="section-content">
+            <p>Kami mengumpulkan dua jenis informasi:</p>
+            <ul>
+                <li><strong>a. Informasi yang Anda Berikan:</strong> Data pribadi yang Anda masukkan saat membuat akun atau bertransaksi di platform kami, seperti nama, alamat email, nomor telepon, dan informasi pembayaran.</li>
+                <li><strong>b. Informasi yang Dikumpulkan Secara Otomatis:</strong> Alamat IP, jenis perangkat, jenis browser, dan data penggunaan lainnya yang kami kumpulkan secara otomatis melalui penggunaan cookies dan teknologi pelacakan.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">2. Penggunaan Informasi</h2>
+        <div class="section-content">
+            <p>Informasi yang kami kumpulkan digunakan untuk:</p>
+            <ul>
+                <li>Memberikan dan memelihara layanan kami.</li>
+                <li>Mengelola akun pengguna dan memproses transaksi.</li>
+                <li>Menanggapi pertanyaan dan memberikan dukungan pelanggan.</li>
+                <li>Melakukan analisis untuk meningkatkan pengalaman pengguna.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">3. Pembagian Informasi</h2>
+        <div class="section-content">
+            <p>Kami tidak akan menjual atau menyewakan informasi pribadi Anda kepada pihak ketiga. Kami dapat membagikan informasi dengan pihak ketiga yang mendukung operasional kami, seperti penyedia layanan teknis, analitik, atau pemrosesan pembayaran, dan hanya jika diperlukan oleh hukum.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">4. Keamanan Data</h2>
+        <div class="section-content">
+            <p>Kami berkomitmen untuk melindungi informasi pribadi Anda. Kami menggunakan langkah-langkah keamanan yang sesuai untuk melindungi data Anda dari akses yang tidak sah atau penyalahgunaan.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">5. Hak Anda</h2>
+        <div class="section-content">
+            <p>Anda memiliki hak untuk mengakses, memperbarui, atau menghapus informasi pribadi Anda. Anda juga dapat menarik persetujuan Anda kapan saja jika data Anda diproses berdasarkan persetujuan.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">6. Penggunaan Cookies</h2>
+        <div class="section-content">
+            <p>Kami menggunakan cookies untuk meningkatkan pengalaman Anda saat menggunakan layanan kami. Anda dapat mengelola pengaturan cookies melalui pengaturan browser Anda.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">7. Perubahan pada Kebijakan Privasi</h2>
+        <div class="section-content">
+            <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Setiap perubahan akan diumumkan di halaman ini dengan tanggal revisi yang diperbarui.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">8. Hubungi Kami</h2>
+        <div class="section-content">
+            <p>Jika Anda memiliki pertanyaan atau kekhawatiran terkait Kebijakan Privasi ini, Anda dapat menghubungi kami di: <a href="{% url 'contactus' %}" class="button-link">Hubungi Kami</a></p>
+            {% comment %} <a href="{% url 'contactus' %}" class="button-link">Hubungi Kami</a> {% endcomment %}
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
+
+
+{% endblock %}
